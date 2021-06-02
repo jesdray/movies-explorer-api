@@ -4,6 +4,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const { celebrate, Joi, errors } = require("celebrate");
+const { login, createUser } = require("./controllers/users")
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 const auth = require("./middlewares/auth")
 
@@ -21,8 +22,15 @@ mongoose.connect("mongodb://localhost:27017/moviesdb", {
     useUnifiedTopology: true,
 });
 
+app.use(requestLogger);
+
+app.post("/singin", login);
+app.post("/singup", createUser);
+
 app.use("/users", auth, require("./routes/users"));
 app.use("/movies", auth, require("./routes/movies"));
+
+app.use(errorLogger);
 
 app.use((req, res) => {
     res.status(404).send({ message: "Ресурс не найден" });
