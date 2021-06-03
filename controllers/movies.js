@@ -9,7 +9,7 @@ module.exports.getMovies = (req, res, next) => {
         .catch(next)
 }
 
-module.exports.createMovies = (req, res, next) => {
+module.exports.createMovie = (req, res, next) => {
     const {
         country, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId
     } = req.body;
@@ -27,7 +27,7 @@ module.exports.createMovies = (req, res, next) => {
         });
 }
 
-module.exports.deleteId = (req, res, next) => {
+module.exports.deleteMovie = (req, res, next) => {
     Movies.findById(req.params.id).orFail(() => {
         const error = new NotFoundError("Фильм с указанным id не найден");
         next(error);

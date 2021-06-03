@@ -24,8 +24,20 @@ mongoose.connect("mongodb://localhost:27017/moviesdb", {
 
 app.use(requestLogger);
 
-app.post("/singin", login);
-app.post("/singup", createUser);
+app.post("/singin", celebrate({
+    body: Joi.object().keys({
+        email: Joi.string().required().email(),
+        password: Joi.string().required(),
+    }),
+}), login);
+
+app.post("/singup", celebrate({
+    body: Joi.object().keys({
+        name: Joi.string().min(2).max(30),
+        email: Joi.string().required().email(),
+        password: Joi.string().required(),
+    }),
+}), createUser);
 
 app.use("/users", auth, require("./routes/users"));
 app.use("/movies", auth, require("./routes/movies"));
