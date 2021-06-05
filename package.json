@@ -2,9 +2,10 @@
   "name": "movies-api",
   "version": "1.0.0",
   "description": "Серверная часть сайта movies",
-  "main": "index.js",
+  "main": "app.js",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "body-parse": "^0.1.0",
     "celebrate": "^14.0.0",
     "cors": "^2.8.5",
     "dotenv": "^9.0.0",
