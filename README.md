@@ -12,4 +12,4 @@
 
 
 
-Ссылка на api: **movies-b.students.nomoredomains.club**
+Ссылка на api: **https://movies-b.students.nomoredomains.club**
