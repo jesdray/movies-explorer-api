@@ -7,6 +7,7 @@ const EmailError = require("../errors/email-err");
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
+// Создает пользователя
 module.exports.createUser = (req, res, next) => {
   const { email, password, name } = req.body;
 
@@ -35,6 +36,7 @@ module.exports.createUser = (req, res, next) => {
     });
 };
 
+// Авторизация пользователя
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
@@ -45,6 +47,7 @@ module.exports.login = (req, res, next) => {
     .catch((next));
 };
 
+// Возвращает информацию о пользователе
 module.exports.getUser = (req, res, next) => {
   User.findById(req.user._id).orFail(() => {
     const error = new NotFoundError("Пользователь с таким id не найден");
@@ -62,6 +65,7 @@ module.exports.getUser = (req, res, next) => {
     });
 };
 
+// Редактирование информации пользователя
 module.exports.updateProfile = (req, res, next) => {
   const { name, email } = req.body;
 

@@ -3,6 +3,7 @@ const AuthorizationError = require("../errors/authorization-err");
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
+// Проверка токена пользователя
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
 

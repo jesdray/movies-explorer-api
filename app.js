@@ -1,11 +1,9 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
 require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const express = require("express");
+const cors = require("cors");
 const { celebrate, Joi, errors } = require("celebrate");
 const { login, createUser } = require("./controllers/users");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
@@ -64,5 +62,4 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(PORT);
 });

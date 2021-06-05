@@ -1,4 +1,3 @@
-/* eslint-disable func-names */
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const AuthorizationError = require("../errors/authorization-err");
@@ -22,7 +21,7 @@ const userSchema = mongoose.Schema({
   },
 }, { versionKey: false });
 
-userSchema.statics.findUserByCredentials = function (email, password) {
+userSchema.statics.findUserByCredentials = function check(email, password) {
   return this.findOne({ email }).select("+password")
     .then((user) => {
       if (!user) {

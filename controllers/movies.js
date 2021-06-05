@@ -1,9 +1,9 @@
-/* eslint-disable eqeqeq */
 const Movies = require("../models/movie");
 const DataError = require("../errors/data-err");
 const NotFoundError = require("../errors/not-found-err");
 const RightsError = require("../errors/no-rights");
 
+// Выдает все фильмы пользователя
 module.exports.getMovies = (req, res, next) => {
   Movies.find({})
     .then((movies) => {
@@ -12,6 +12,7 @@ module.exports.getMovies = (req, res, next) => {
     .catch(next);
 };
 
+// Создает фильм пользователя
 module.exports.createMovie = (req, res, next) => {
   const {
     country,
@@ -53,13 +54,14 @@ module.exports.createMovie = (req, res, next) => {
     });
 };
 
+// Удаляет фильм пользователя по id
 module.exports.deleteMovie = (req, res, next) => {
   Movies.findById(req.params.id).orFail(() => {
     const error = new NotFoundError("Фильм с указанным id не найден");
     next(error);
   })
     .then((movie) => {
-      if (req.user._id == movie.owner) {
+      if (req.user._id === movie.owner.toString()) {
         Movies.findByIdAndRemove(req.params.id)
           .then((item) => {
             res.status(200).send({ data: item });

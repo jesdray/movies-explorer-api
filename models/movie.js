@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-escape */
 const mongoose = require("mongoose");
 
 const movieSchema = mongoose.Schema({
@@ -25,17 +24,17 @@ const movieSchema = mongoose.Schema({
   image: {
     type: String,
     required: true,
-    match: [/https?:\/\/(www\.)?[\w\-\.\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]*/g],
+    match: [/https?:\/\/(www\.)?[\w\-.~:/?#[\]@!$&'()*+,;=]*/g],
   },
   trailer: {
     type: String,
     required: true,
-    match: [/https?:\/\/(www\.)?[\w\-\.\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]*/g],
+    match: [/https?:\/\/(www\.)?[\w\-.~:/?#[\]@!$&'()*+,;=]*/g],
   },
   thumbnail: {
     type: String,
     required: true,
-    match: [/https?:\/\/(www\.)?[\w\-\.\~\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=]*/g],
+    match: [/https?:\/\/(www\.)?[\w\-.~:/?#[\]@!$&'()*+,;=]*/g],
   },
   owner: {
     required: true,

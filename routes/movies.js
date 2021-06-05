@@ -3,6 +3,7 @@ const { celebrate, Joi } = require("celebrate");
 const { getMovies, createMovie, deleteMovie } = require("../controllers/movies");
 
 router.get("/", getMovies);
+
 router.post("/", celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
@@ -17,6 +18,7 @@ router.post("/", celebrate({
     nameEN: Joi.string().required(),
   }),
 }), createMovie);
+
 router.delete("/:id", deleteMovie);
 
 module.exports = router;

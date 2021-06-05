@@ -1,3 +1,5 @@
+// Ошибка со статусом 401
+
 class AuthorizationError extends Error {
   constructor(message) {
     super(message);
