@@ -25,8 +25,7 @@ mongoose.connect(NODE_ENV === "production" ? MONGOOSE_LINK : "mongodb://localhos
 
 app.use(requestLogger);
 
-app.use("/", require("./routes/users"));
-app.use("/", require("./routes/movies"));
+app.use("/", require("./routes/index"));
 
 app.use((req, res, next) => {
   const error = new NotFoundError("Ресурс не найден");
