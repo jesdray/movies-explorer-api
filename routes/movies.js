@@ -4,9 +4,9 @@ const validator = require("validator");
 const { getMovies, createMovie, deleteMovie } = require("../controllers/movies");
 const auth = require("../middlewares/auth");
 
-router.get("/movies", auth, getMovies);
+router.get("/", auth, getMovies);
 
-router.post("/movies", auth, celebrate({
+router.post("/", auth, celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
     director: Joi.string().required(),
@@ -37,6 +37,6 @@ router.post("/movies", auth, celebrate({
   }),
 }), createMovie);
 
-router.delete("/movies/:id", auth, deleteMovie);
+router.delete("/:id", auth, deleteMovie);
 
 module.exports = router;
