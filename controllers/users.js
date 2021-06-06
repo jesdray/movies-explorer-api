@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const DataError = require("../errors/data-err");
 const NotFoundError = require("../errors/not-found-err");
-const EmailError = require("../errors/email-err");
+const ConflictError = require("../errors/email-err");
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -16,7 +16,7 @@ module.exports.createUser = (req, res, next) => {
       User.create({
         email, password: hash, name,
       })
-        .then((user) => res.status(200).send({
+        .then((user) => res.send({
           data: {
             name: user.name,
             email: user.email,
@@ -28,10 +28,11 @@ module.exports.createUser = (req, res, next) => {
             next(error);
           }
           if (err.name === "MongoError") {
-            const error = new EmailError("Пользователь с таким email уже существует");
+            const error = new ConflictError("Пользователь с таким email уже существует");
             next(error);
+          } else {
+            next(err)
           }
-          next(err);
         });
     });
 };
@@ -54,14 +55,15 @@ module.exports.getUser = (req, res, next) => {
     next(error);
   })
     .then((user) => {
-      res.status(200).send({ data: user });
+      res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === "CastError") {
         const error = new DataError("Неправильный формат _id");
         next(error);
+      } else {
+        next(err)
       }
-      next(err);
     });
 };
 
@@ -80,6 +82,14 @@ module.exports.updateProfile = (req, res, next) => {
       const error = new NotFoundError("Пользователь с таким id не найден");
       next(error);
     })
-    .then((user) => res.status(200).send({ data: user }))
-    .catch(next);
+    .then((user) => res.send({ data: user }))
+    .catch((err) => {
+      console.log(err.name);
+      if (err.name === "MongoError") {
+        const error = new ConflictError("Пользователь с таким email уже существует");
+        next(error);
+      } else {
+        next(err)
+      }
+    });
 };

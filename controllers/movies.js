@@ -7,7 +7,7 @@ const RightsError = require("../errors/no-rights");
 module.exports.getMovies = (req, res, next) => {
   Movies.find({})
     .then((movies) => {
-      res.status(200).send({ data: movies });
+      res.send({ data: movies });
     })
     .catch(next);
 };
@@ -43,14 +43,15 @@ module.exports.createMovie = (req, res, next) => {
     owner: req.user,
   })
     .then((movie) => {
-      res.status(200).send({ data: movie });
+      res.send({ data: movie });
     })
     .catch((err) => {
       if (err.name === "ValidationError") {
         const error = new DataError("Переданы некорректные данные");
         next(error);
+      } else {
+        next(err)
       }
-      next(err);
     });
 };
 
@@ -62,26 +63,19 @@ module.exports.deleteMovie = (req, res, next) => {
   })
     .then((movie) => {
       if (req.user._id === movie.owner.toString()) {
-        Movies.findByIdAndRemove(req.params.id)
+        return Movies.findByIdAndRemove(req.params.id)
           .then((item) => {
-            res.status(200).send({ data: item });
-          })
-          .catch((err) => {
-            if (err.name === "CastError") {
-              const error = new DataError("Неправильный формат _id");
-              next(error);
-            }
-            next(err);
+            res.send({ data: item });
           });
-      } else {
-        throw new RightsError("У вас недостаточно прав для удаления");
       }
+      throw new RightsError("У вас недостаточно прав для удаления");
     })
     .catch((err) => {
       if (err.name === "CastError") {
         const error = new DataError("Неправильный формат _id");
         next(error);
+      } else {
+        next(err)
       }
-      next(err);
     });
 };
