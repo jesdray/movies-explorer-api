@@ -31,7 +31,7 @@ module.exports.createUser = (req, res, next) => {
             const error = new ConflictError("Пользователь с таким email уже существует");
             next(error);
           } else {
-            next(err)
+            next(err);
           }
         });
     });
@@ -62,7 +62,7 @@ module.exports.getUser = (req, res, next) => {
         const error = new DataError("Неправильный формат _id");
         next(error);
       } else {
-        next(err)
+        next(err);
       }
     });
 };
@@ -84,12 +84,11 @@ module.exports.updateProfile = (req, res, next) => {
     })
     .then((user) => res.send({ data: user }))
     .catch((err) => {
-      console.log(err.name);
       if (err.name === "MongoError") {
         const error = new ConflictError("Пользователь с таким email уже существует");
         next(error);
       } else {
-        next(err)
+        next(err);
       }
     });
 };

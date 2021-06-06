@@ -50,7 +50,7 @@ module.exports.createMovie = (req, res, next) => {
         const error = new DataError("Переданы некорректные данные");
         next(error);
       } else {
-        next(err)
+        next(err);
       }
     });
 };
@@ -75,7 +75,7 @@ module.exports.deleteMovie = (req, res, next) => {
         const error = new DataError("Неправильный формат _id");
         next(error);
       } else {
-        next(err)
+        next(err);
       }
     });
 };

@@ -20,7 +20,7 @@
         "semi": ["error", "always"],
         "quotes": ["error", "double"],
         "no-underscore-dangle": ["error", { "allow": ["_id"] }],
-        "no-unused-vars": ["error", { "vars": ["next"] }],
+        "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": false }],
         "import/no-extraneous-dependencies": ["error", {"devDependencies": false, "optionalDependencies": false, "peerDependencies": false}]
 
     }

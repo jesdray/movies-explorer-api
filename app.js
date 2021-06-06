@@ -5,9 +5,9 @@ const express = require("express");
 const cors = require("cors");
 const { errors } = require("celebrate");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
-const auth = require("./middlewares/auth");
-const { NODE_ENV, MONGOOSE_link } = process.env;
-const NotFoundError = require(("./errors/not-found-err"))
+
+const { NODE_ENV, MONGOOSE_LINK } = process.env;
+const NotFoundError = require(("./errors/not-found-err"));
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-mongoose.connect(NODE_ENV === "production" ? MONGOOSE_link : "mongodb://localhost:27017/moviesdb", {
+mongoose.connect(NODE_ENV === "production" ? MONGOOSE_LINK : "mongodb://localhost:27017/moviesdb", {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
@@ -29,8 +29,8 @@ app.use("/", require("./routes/users"));
 app.use("/", require("./routes/movies"));
 
 app.use((req, res, next) => {
-  const error = new NotFoundError("Ресурс не найден")
-  next(error)
+  const error = new NotFoundError("Ресурс не найден");
+  next(error);
 });
 
 app.use(errorLogger);
