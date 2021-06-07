@@ -5,14 +5,14 @@ const {
 } = require("../controllers/users");
 const auth = require("../middlewares/auth");
 
-router.post("/singin", celebrate({
+router.post("/signin", celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
 }), login);
 
-router.post("/singup", celebrate({
+router.post("/signup", celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30).required(),
     email: Joi.string().required().email(),
