@@ -13,18 +13,20 @@ router.post("/", auth, celebrate({
     duration: Joi.number().required(),
     year: Joi.number().required(),
     description: Joi.string().required(),
-    image: Joi.string().required().min(2).custom((value, helpers) => {
+    image: Joi.string().required().custom((value, helpers) => {
       if (validator.isURL(value)) {
         return value;
       }
       return helpers.message("Не валидная ссылка");
     }),
-    trailer: Joi.string().required().min(2).custom((value, helpers) => {
+    trailer: Joi.string().required().custom((value, helpers) => {
       if (validator.isURL(value)) {
         return value;
       }
       return helpers.message("Не валидная ссылка");
     }),
+    nameRU: Joi.string().required(),
+    nameEN: Joi.string().required(),
     thumbnail: Joi.string().required().custom((value, helpers) => {
       if (validator.isURL(value)) {
         return value;
@@ -32,8 +34,6 @@ router.post("/", auth, celebrate({
       return helpers.message("Не валидная ссылка");
     }),
     movieId: Joi.number().required(),
-    nameRU: Joi.string().required(),
-    nameEN: Joi.string().required(),
   }),
 }), createMovie);
 

@@ -5,7 +5,7 @@ const RightsError = require("../errors/no-rights");
 
 // Выдает все фильмы пользователя
 module.exports.getMovies = (req, res, next) => {
-  Movies.find({})
+  Movies.find({ owner: req.user._id })
     .then((movies) => {
       res.send({ data: movies });
     })
@@ -57,13 +57,13 @@ module.exports.createMovie = (req, res, next) => {
 
 // Удаляет фильм пользователя по id
 module.exports.deleteMovie = (req, res, next) => {
-  Movies.findById(req.params.id).orFail(() => {
+  Movies.findOne({ movieId: req.params.id }).orFail(() => {
     const error = new NotFoundError("Фильм с указанным id не найден");
     next(error);
   })
     .then((movie) => {
       if (req.user._id === movie.owner.toString()) {
-        return Movies.findByIdAndRemove(req.params.id)
+        return Movies.findOneAndRemove({ movieId: req.params.id })
           .then((item) => {
             res.send({ data: item });
           });
@@ -72,7 +72,7 @@ module.exports.deleteMovie = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        const error = new DataError("Неправильный формат _id");
+        const error = new DataError("Неправильный формат id");
         next(error);
       } else {
         next(err);
