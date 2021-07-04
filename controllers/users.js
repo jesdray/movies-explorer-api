@@ -55,7 +55,7 @@ module.exports.getUser = (req, res, next) => {
     next(error);
   })
     .then((user) => {
-      res.send({ data: user });
+      res.send(user);
     })
     .catch((err) => {
       if (err.name === "CastError") {
@@ -82,7 +82,7 @@ module.exports.updateProfile = (req, res, next) => {
       const error = new NotFoundError("Пользователь с таким id не найден");
       next(error);
     })
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === "MongoError") {
         const error = new ConflictError("Пользователь с таким email уже существует");

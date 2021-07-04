@@ -43,7 +43,7 @@ module.exports.createMovie = (req, res, next) => {
     owner: req.user,
   })
     .then((movie) => {
-      res.send({ data: movie });
+      res.send(movie);
     })
     .catch((err) => {
       if (err.name === "ValidationError") {
@@ -57,15 +57,15 @@ module.exports.createMovie = (req, res, next) => {
 
 // Удаляет фильм пользователя по id
 module.exports.deleteMovie = (req, res, next) => {
-  Movies.findOne({ movieId: req.params.id }).orFail(() => {
+  Movies.findById(req.params.id).orFail(() => {
     const error = new NotFoundError("Фильм с указанным id не найден");
     next(error);
   })
     .then((movie) => {
       if (req.user._id === movie.owner.toString()) {
-        return Movies.findOneAndRemove({ movieId: req.params.id })
+        return Movies.findByIdAndRemove(req.params.id)
           .then((item) => {
-            res.send({ data: item });
+            res.send(item);
           });
       }
       throw new RightsError("У вас недостаточно прав для удаления");
