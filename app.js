@@ -14,7 +14,6 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
 
 mongoose.connect(NODE_ENV === "production" ? MONGOOSE_LINK : "mongodb://localhost:27017/moviesdb", {
   useNewUrlParser: true,
@@ -25,7 +24,7 @@ mongoose.connect(NODE_ENV === "production" ? MONGOOSE_LINK : "mongodb://localhos
 
 app.use(requestLogger);
 
-app.use("/", require("./routes/index"));
+app.use("/", cors(), require("./routes/index"));
 
 app.use((req, res, next) => {
   const error = new NotFoundError("Ресурс не найден");
