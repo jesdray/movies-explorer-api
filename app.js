@@ -28,6 +28,11 @@ app.use(requestLogger);
 app.use("/", require("./routes/index"));
 
 app.use((req, res, next) => {
+  res.header({ "Access-Control-Allow-Origin": "*" });
+  next();
+});
+
+app.use((req, res, next) => {
   const error = new NotFoundError("Ресурс не найден");
   next(error);
 });
