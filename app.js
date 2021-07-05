@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const { errors } = require("celebrate");
@@ -11,22 +12,9 @@ const NotFoundError = require(("./errors/not-found-err"));
 const { PORT = 3000 } = process.env;
 const app = express();
 
-const corsOptions = [
-  "https://movies-f.students.nomoredomains.club",
-  "localhost:3000",
-];
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use((req, res, next) => {
-  const { origin } = req.headers;
-  if (corsOptions.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin);
-  }
-
-  next();
-});
+app.use(cors());
 
 mongoose.connect(NODE_ENV === "production" ? MONGOOSE_LINK : "mongodb://localhost:27017/moviesdb", {
   useNewUrlParser: true,
