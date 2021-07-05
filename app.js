@@ -28,7 +28,7 @@ app.use(requestLogger);
 app.use("/", require("./routes/index"));
 
 app.use((req, res, next) => {
-  res.header({ "Access-Control-Allow-Origin": "*" });
+  res.header({ "Access-Control-Allow-Origin": "https://movies-f.students.nomoredomains.club" });
   next();
 });
 
