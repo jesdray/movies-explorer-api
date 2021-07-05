@@ -12,6 +12,11 @@ const NotFoundError = require(("./errors/not-found-err"));
 const { PORT = 3000 } = process.env;
 const app = express();
 
+const corsOptions = {
+  origin: "https://movies-f.students.nomoredomains.club",
+  optionsSuccessStatus: 200,
+};
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -24,7 +29,7 @@ mongoose.connect(NODE_ENV === "production" ? MONGOOSE_LINK : "mongodb://localhos
 
 app.use(requestLogger);
 
-app.use("/", cors(), require("./routes/index"));
+app.use("/", cors(corsOptions), require("./routes/index"));
 
 app.use((req, res, next) => {
   const error = new NotFoundError("Ресурс не найден");
