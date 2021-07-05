@@ -1,8 +1,8 @@
 require("dotenv").config();
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
 const express = require("express");
 const cors = require("cors");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 const { errors } = require("celebrate");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 
