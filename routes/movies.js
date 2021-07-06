@@ -1,11 +1,8 @@
 const router = require("express").Router();
-const cors = require("cors");
 const { celebrate, Joi } = require("celebrate");
 const validator = require("validator");
 const { getMovies, createMovie, deleteMovie } = require("../controllers/movies");
 const auth = require("../middlewares/auth");
-
-router.use(cors());
 
 router.get("/", auth, getMovies);
 
