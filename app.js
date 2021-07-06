@@ -10,6 +10,9 @@ const { NODE_ENV, MONGOOSE_LINK } = process.env;
 const NotFoundError = require(("./errors/not-found-err"));
 
 const { PORT = 3000 } = process.env;
+const allowedCors = [
+  "https://movies-f.students.nomoredomains.club",
+];
 const app = express();
 
 app.use(bodyParser.json());
@@ -25,21 +28,24 @@ mongoose.connect(NODE_ENV === "production" ? MONGOOSE_LINK : "mongodb://localhos
 
 app.use(requestLogger);
 
-app.use("/", require("./routes/index"));
-
-const allowedCors = [
-  "https://movies-f.students.nomoredomains.club",
-];
-
 app.use((req, res, next) => {
   const { origin } = req.headers;
+  const { method } = req;
+  const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
+  const requestHeaders = req.headers["access-control-request-headers"];
 
+  if (method === "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", DEFAULT_ALLOWED_METHODS);
+    res.header("Access-Control-Allow-Headers", requestHeaders);
+  }
   if (allowedCors.includes(origin)) {
     res.header("Access-Control-Allow-Origin", origin);
   }
 
   next();
 });
+
+app.use("/", require("./routes/index"));
 
 app.use((req, res, next) => {
   const error = new NotFoundError("Ресурс не найден");
