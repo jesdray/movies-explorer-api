@@ -1,9 +1,12 @@
 const router = require("express").Router();
+const cors = require("cors");
 const { celebrate, Joi } = require("celebrate");
 const {
   updateProfile, getUser, login, createUser,
 } = require("../controllers/users");
 const auth = require("../middlewares/auth");
+
+router.use(cors());
 
 router.post("/signin", celebrate({
   body: Joi.object().keys({
