@@ -28,7 +28,7 @@ app.use(requestLogger);
 app.use("/", require("./routes/index"));
 
 const allowedCors = [
-  "https://movies-f.students.nomoredomains.club/",
+  "https://movies-f.students.nomoredomains.club",
 ];
 
 app.use((req, res, next) => {
