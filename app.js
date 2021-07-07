@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-// const cors = require("cors");
+const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const { errors } = require("celebrate");
@@ -14,7 +14,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(cors({ origin: "*" }));
+app.use(cors());
 
 mongoose.connect(NODE_ENV === "production" ? MONGOOSE_LINK : "mongodb://localhost:27017/moviesdb", {
   useNewUrlParser: true,
@@ -25,19 +25,19 @@ mongoose.connect(NODE_ENV === "production" ? MONGOOSE_LINK : "mongodb://localhos
 
 app.use(requestLogger);
 
-app.use((req, res, next) => {
-  const { method } = req;
-  const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
-  const requestHeaders = req.headers["access-control-request-headers"];
+// app.use((req, res, next) => {
+//   const { method } = req;
+//   const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
+//   const requestHeaders = req.headers["access-control-request-headers"];
 
-  if (method === "OPTIONS") {
-    res.header("Access-Control-Allow-Methods", DEFAULT_ALLOWED_METHODS);
-    res.header("Access-Control-Allow-Headers", requestHeaders);
-  }
-  res.header("Access-Control-Allow-Origin", "*");
+//   if (method === "OPTIONS") {
+//     res.header("Access-Control-Allow-Methods", DEFAULT_ALLOWED_METHODS);
+//     res.header("Access-Control-Allow-Headers", requestHeaders);
+//   }
+//   res.header("Access-Control-Allow-Origin", "*");
 
-  next();
-});
+//   next();
+// });
 
 app.use("/", require("./routes/index"));
 
