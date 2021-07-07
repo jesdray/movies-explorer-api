@@ -17,9 +17,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors({
-  origin: "https://movies-f.students.nomoredomains.club/",
-}));
+app.use(cors());
 
 mongoose.connect(NODE_ENV === "production" ? MONGOOSE_LINK : "mongodb://localhost:27017/moviesdb", {
   useNewUrlParser: true,
