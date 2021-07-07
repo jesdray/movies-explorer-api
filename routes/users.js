@@ -1,14 +1,10 @@
 const router = require("express").Router();
 const { celebrate, Joi } = require("celebrate");
-const cors = require("cors");
+
 const {
   updateProfile, getUser,
 } = require("../controllers/users");
 const auth = require("../middlewares/auth");
-
-router.use(cors({
-  origin: "https://movies-f.students.nomoredomains.club/",
-}));
 
 router.get("/users/me", auth, getUser);
 

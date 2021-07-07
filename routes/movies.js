@@ -1,13 +1,9 @@
 const router = require("express").Router();
 const { celebrate, Joi } = require("celebrate");
 const validator = require("validator");
-const cors = require("cors");
+
 const { getMovies, createMovie, deleteMovie } = require("../controllers/movies");
 const auth = require("../middlewares/auth");
-
-router.use(cors({
-  origin: "https://movies-f.students.nomoredomains.club/",
-}));
 
 router.get("/", auth, getMovies);
 
