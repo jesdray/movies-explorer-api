@@ -15,7 +15,7 @@ const { getMovies, createMovie, deleteMovie } = require("./controllers/movies");
 const { NODE_ENV, MONGOOSE_LINK } = process.env;
 const NotFoundError = require(("./errors/not-found-err"));
 
-const { PORT = 3005 } = process.env;
+const { PORT = 3000 } = process.env;
 const app = express();
 
 app.use(bodyParser.json());
