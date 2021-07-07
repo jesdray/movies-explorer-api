@@ -1,10 +1,13 @@
 require("dotenv").config();
 const express = require("express");
-// const cors = require("cors");
+const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const { errors } = require("celebrate");
+const { celebrate, Joi, errors } = require("celebrate");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
+const {
+  login, createUser,
+} = require("./controllers/users");
 
 const { NODE_ENV, MONGOOSE_LINK } = process.env;
 const NotFoundError = require(("./errors/not-found-err"));
@@ -14,9 +17,9 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(cors({
-//   origin: "https://movies-f.students.nomoredomains.club/",
-// }));
+app.use(cors({
+  origin: "https://movies-f.students.nomoredomains.club/",
+}));
 
 mongoose.connect(NODE_ENV === "production" ? MONGOOSE_LINK : "mongodb://localhost:27017/moviesdb", {
   useNewUrlParser: true,
@@ -27,19 +30,20 @@ mongoose.connect(NODE_ENV === "production" ? MONGOOSE_LINK : "mongodb://localhos
 
 app.use(requestLogger);
 
-// app.use((req, res, next) => {
-//   const { method } = req;
-//   const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
-//   const requestHeaders = req.headers["access-control-request-headers"];
+app.post("/signin", celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
+  }),
+}), login);
 
-//   if (method === "OPTIONS") {
-//     res.header("Access-Control-Allow-Methods", DEFAULT_ALLOWED_METHODS);
-//     res.header("Access-Control-Allow-Headers", requestHeaders);
-//   }
-//   res.header("Access-Control-Allow-Origin", "*");
-
-//   next();
-// });
+app.post("/signup", celebrate({
+  body: Joi.object().keys({
+    name: Joi.string().min(2).max(30).required(),
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
+  }),
+}), createUser);
 
 app.use("/", require("./routes/index"));
 
