@@ -1,9 +1,14 @@
 const router = require("express").Router();
 const { celebrate, Joi } = require("celebrate");
+const cors = require("cors");
 const {
   updateProfile, getUser, login, createUser,
 } = require("../controllers/users");
 const auth = require("../middlewares/auth");
+
+router.use(cors({
+  origin: "https://movies-f.students.nomoredomains.club/",
+}));
 
 router.post("/signin", celebrate({
   body: Joi.object().keys({
