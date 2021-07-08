@@ -7,7 +7,7 @@ const { errors } = require("celebrate");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const { NODE_ENV, MONGOOSE_LINK } = process.env;
-// const NotFoundError = require(("./errors/not-found-err"));
+const NotFoundError = require(("./errors/not-found-err"));
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -27,10 +27,10 @@ app.use(requestLogger);
 
 app.use("/", require("./routes/index"));
 
-// app.use((req, res, next) => {
-//   const error = new NotFoundError("Ресурс не найден");
-//   next(error);
-// });
+app.use((req, res, next) => {
+  const error = new NotFoundError("Ресурс не найден");
+  next(error);
+});
 
 app.use(errorLogger);
 

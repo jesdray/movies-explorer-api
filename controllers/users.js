@@ -9,7 +9,7 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 
 // Создает пользователя
 module.exports.createUser = (req, res, next) => {
-  const { email, password, name } = req.body;
+  const { name, password, email } = req.body;
 
   bcrypt.hash(password, 10)
     .then((hash) => {
@@ -39,7 +39,7 @@ module.exports.createUser = (req, res, next) => {
 
 // Авторизация пользователя
 module.exports.login = (req, res, next) => {
-  const { email, password } = req.body;
+  const { password, email } = req.body;
 
   User.findUserByCredentials(email, password)
     .then((user) => {
